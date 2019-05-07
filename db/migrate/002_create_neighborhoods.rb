@@ -1,4 +1,4 @@
-class CreateNeighborghoods < ActiveRecord::Migrate
+class CreateNeighborhoods < ActiveRecord::Migrate
     def change
         create_table :neighborhoods do |t|
             t.string :name
