@@ -71,7 +71,7 @@ class DirectoryController
 
     def list_cats
         # lists all known cats and their attributes
-        Cat.all
+        Cat.all.name
     end
 
     def list_owners
@@ -93,7 +93,7 @@ class DirectoryController
 
         puts "\nADD A CAT!"
 
-        puts "\nWhat is your name?"
+        puts "\nWhat is your name?"  # Link user with new cat
             human = gets.chomp
         puts "What is this cat's name?"
             cat_name = gets.chomp
@@ -117,7 +117,8 @@ class DirectoryController
                 end
         end
         
-        Owner.create(name: human)
+        # Owner.create(name: human)
+        # TODO link user with cat
         Cat.create(name: cat_name, color: cat_color, breed: cat_breed, favorite_food: cat_food, temperament: cat_temperament)
         
     end

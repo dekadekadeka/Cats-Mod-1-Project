@@ -3,7 +3,7 @@ Cat.create(name: "Citlali", breed: "Domestic Shorthair", color: "calico", favori
 Cat.create(name: "Pinta", breed: "Domestic Shorthair", color: "calico", favorite_food: "wet", temperament: false)
 Cat.create(name: "Lemon", breed: "Maine Coon", color: "grey and black", favorite_food: "wet", temperament: false)
 Cat.create(name: "Pip", breed: "Turkish Van", color: "orange and white", favorite_food: "dry", temperament: true)
-Cat.create(name: "Apollo", breed: "American Longhair", color: "golden", favorite_food: "wet", temperament: true)
+Cat.create(name: "Apollo", breed: "Domestic Longhair", color: "golden", favorite_food: "wet", temperament: true)
 
 Owner.create(name: "Deka", address: "Grande River Rd", food_provided: "wet AND dry", cat_already: true, dog: false)
 Owner.create(name: "Scott", address: "Peachtree St", food_provided: "wet", cat_already: true, dog: true)
