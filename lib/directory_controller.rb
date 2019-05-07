@@ -4,7 +4,6 @@ class DirectoryController
         main_menu
     end
 
-
     def return_to_main?
         puts "Return to main menu? (y/n)"
         choice = gets.chomp
@@ -19,7 +18,6 @@ class DirectoryController
             return_to_main?
         end
     end
-
 
     def main_menu
         puts "HELLO! Welcome to the //Flatiron Cat Directory!"
@@ -80,7 +78,6 @@ class DirectoryController
     end
 
     def add_cat
-
         # puts "    /\\__/\\"
         # puts "   /'    \'\\"
         # puts " === 0  0 ==="
@@ -129,6 +126,5 @@ class DirectoryController
         puts "  2. A cat"
         choice = gets.chomp
     end
-
 
 end
