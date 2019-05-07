@@ -5,7 +5,7 @@ class CreateCats < ActiveRecord::Migration[5.0]
             t.string :breed
             t.string :color
             t.string :favorite_food
-            t.boolean :temperment #gets along with other cats? true or false
+            t.boolean :temperament #gets along with other cats? true or false
         end
     end
 end

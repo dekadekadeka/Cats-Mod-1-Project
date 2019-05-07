@@ -93,12 +93,12 @@ class DirectoryController
             cat_food = gets.chomp
         loop do
             puts "Does this cat get along with other cats? (y/n)"
-            cat_temperment = gets.chomp
-                if cat_temperment == "y"
-                    cat_temperment = true
+            cat_temperament = gets.chomp
+                if cat_temperament == "y"
+                    cat_temperament = true
                     break
-                elsif cat_temperment == "n"
-                    cat_temperment = false
+                elsif cat_temperament == "n"
+                    cat_temperament = false
                     break
                 else
                     puts "Please enter y or n."
@@ -106,11 +106,15 @@ class DirectoryController
         end
         
         Owner.create(name: human)
-        Cat.create(name: cat_name)
-        cat_color = cat_name.color
-        cat_breed = cat_name.breed
-        cat_food = cat_name.favorite_food
-        cat_temperment = cat_name.temperment
+        Cat.create(name: cat_name, color: cat_color, breed: cat_breed, favorite_food: cat_food, temperament: cat_temperament)
+        
+    end
+
+    def remove
+        puts "Which would you like to remove?"
+        puts "  1. A neighbor"
+        puts "  2. A cat"
+        choice = gets.chomp
     end
 
 
