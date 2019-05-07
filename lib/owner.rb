@@ -1,3 +1,4 @@
 class Owner < ActiveRecord::Base
-    has_many :cats, through: :neighborhood
+    has_many :neighborhoods
+    has_many :cats, through: :neighborhoods
 end
