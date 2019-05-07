@@ -1,5 +1,4 @@
 require_relative '../config/environment'
 
+DirectoryController.new.start
 
-
-puts "HELLO WORLD"
