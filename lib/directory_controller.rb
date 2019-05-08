@@ -44,7 +44,7 @@ class DirectoryController
                 add_cat
                 return_to_main?
             when 4
-                remove_owner || remove_cat
+                remove
                 return_to_main?
             when 5
                 compare_cats
@@ -123,9 +123,36 @@ class DirectoryController
 
     def remove
         puts "Which would you like to remove?"
-        puts "  1. A neighbor"
+        puts "  1. Yourself"
         puts "  2. A cat"
+        puts "  3. I changed my mind"
         choice = gets.chomp
+        case (choice.to_i)
+            when 1
+                puts "☹️ So sad to see you go... what's your name?"
+                owner_name = gets.chomp
+                destroy = Owner.find_by(name: owner_name)
+                if destroy.nil?
+                    puts "This owner doesn't exist"
+                    remove
+                else
+                    destroy.destroy
+                    puts "Bye!"
+                end
+            when 2
+                puts "😿 What's the cat's name?"
+                cat_name = gets.chomp
+                destroy = Cat.find_by(name: cat_name)
+                if destroy.nil?
+                    puts "This cat doesn't exist"
+                    remove
+                else
+                    destroy.destroy
+                    puts "Bye!"
+                end
+            when 3
+                main_menu
+        end
     end
 
 end
