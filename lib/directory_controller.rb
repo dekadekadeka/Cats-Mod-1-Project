@@ -185,11 +185,11 @@ class DirectoryController
                 elsif cat_1.temperament == true && cat_2.temperament == true
                     puts "These cats get along with everyone 😻"
                 elsif cat_1.temperament == true && cat_2.temperament == false
-                    puts "These cats will NOT get along!"
+                    puts "These cats will NOT get along! 😾"
                 elsif cat_1.temperament == false && cat_2.temperament == true
-                    puts "These cats will NOT get along!"
+                    puts "These cats will NOT get along! 😾"
                 elsif cat_1.temperament == false && cat_2.temperament == false
-                    puts "These cats don't get along with anybody!!"
+                    puts "These cats don't get along with anybody!! 😾"
             end
         end
     end
