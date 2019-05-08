@@ -6,6 +6,7 @@ class CreateOwners < ActiveRecord::Migration[5.0]
             t.string :food_provided #what type of food is the owner putting out?
             t.boolean :cat_already #does the owner already have a cat?
             t.boolean :dog #does the owner have a dog?
+            t.integer :neighborhood_id
         end
     end
 end
