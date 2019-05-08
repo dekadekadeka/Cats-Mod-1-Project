@@ -155,4 +155,37 @@ class DirectoryController
         end
     end
 
+    def compare_cats
+        puts "Which two cats would you like to compare?"
+        puts "or type 'exit' to go back to the main menu"
+        puts "Name of first cat:"
+        first = gets.chomp
+            if first == "exit"
+                main_menu
+            end
+        puts "Name of second cat:"
+        second = gets.chomp
+        cat_1 = Cat.find_by(name: first)
+        cat_2 = Cat.find_by(name: second)
+        case
+            when cat_1.nil? || cat_2.nil?
+                puts "One of both of those cats isn't in the database."
+                puts "Please put in a valid name"
+                puts ""
+                compare_cats
+            else
+                if cat_1.temperament == true && cat_2.temperament == true
+                    puts "These cats get along with everyone 😻"
+                elsif cat_1.temperament == true && cat_2.temperament == false
+                    puts "These cats will NOT get along!"
+                elsif cat_1.temperament == false && cat_2.temperament == true
+                    puts "These cats will NOT get along!"
+                elsif cat_1.temperament == false && cat_2.temperament == false
+                    puts "These cats don't get along with anybody!!"
+                elsif cat_1.name == cat_2.name
+                    puts "That's the same cat..."
+            end
+        end
+    end
+
 end
