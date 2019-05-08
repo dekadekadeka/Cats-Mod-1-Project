@@ -185,49 +185,40 @@ class DirectoryController
                 elsif cat_1.temperament == true && cat_2.temperament == true
                     puts "These cats get along with everyone 😻"
                 elsif cat_1.temperament == true && cat_2.temperament == false
-                    puts "These cats will NOT get along!"
+                    puts "These cats will NOT get along! 😾"
                 elsif cat_1.temperament == false && cat_2.temperament == true
-                    puts "These cats will NOT get along!"
+                    puts "These cats will NOT get along! 😾"
                 elsif cat_1.temperament == false && cat_2.temperament == false
-                    puts "These cats don't get along with anybody!!"
+                    puts "These cats don't get along with anybody!! 😾"
             end
         end
     end
 
-    def compare_cats
-        puts "Which two cats would you like to compare?"
-        puts "or type 'exit' to go back to the main menu"
-        puts "Name of first cat:"
-        first = gets.chomp
-            if first == "exit"
+    def cats_favorite_food
+        puts "1. Food you need to attract a specific cat"
+        puts "2. All cats that prefer wet food"
+        puts "3. All cats that prefer dry food"
+        puts "4. Go back to main menu"
+        choice = gets.chomp
+        case (choice.to_i)
+            when 1
+                puts "Which cat would you like to attract?"
+                cat_food_name = gets.chomp
+                cat_fav_food = Cat.find_by(name: cat_food_name).favorite_food
+                puts "#{cat_food_name} prefers #{cat_fav_food} food."
+            when 2
+                puts "Cats that prefer wet food:"
+                Cat.where(:favorite_food => "wet").select {|cat| puts cat.name}
+            when 3
+                puts "Cats that prefer dry food:"
+                Cat.where(:favorite_food => "dry").select {|cat| puts cat.name}
+            when 4
                 main_menu
-            end
-        puts "Name of second cat:"
-        second = gets.chomp
-        cat_1 = Cat.find_by(name: first)
-        cat_2 = Cat.find_by(name: second)
-        case
-            when cat_1.nil? || cat_2.nil?
-                puts "One of both of those cats isn't in the database."
-                puts "Please put in a valid name"
-                puts ""
-                compare_cats
-            else
-                if cat_1.name == cat_2.name
-                    puts "That's the same cat..."
-                elsif cat_1.temperament == true && cat_2.temperament == true
-                    puts "These cats get along with everyone 😻"
-                elsif cat_1.temperament == true && cat_2.temperament == false
-                    puts "These cats will NOT get along!"
-                elsif cat_1.temperament == false && cat_2.temperament == true
-                    puts "These cats will NOT get along!"
-                elsif cat_1.temperament == false && cat_2.temperament == false
-                    puts "These cats don't get along with anybody!!"
-            end
         end
     end
 
-    def most_cats
+
+    def crazy_cat_lady
         cat_count = Owner.all.map {|owner| owner.cats}.max{|cats| cats.length}.count
         most_owner = Owner.all.select {|owner| owner.cats.max}.last
 
