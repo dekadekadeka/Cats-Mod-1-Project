@@ -53,7 +53,7 @@ class DirectoryController
                 cats_favorite_food
                 return_to_main?
             when 7
-                most_cats
+                crazy_cat_lady
                 return_to_main?
             when 8
                 update_owner_info
@@ -90,8 +90,6 @@ class DirectoryController
 
         puts "\nADD A CAT!"
 
-        puts "\nWhat is your name?"  # Link user with new cat, check if user already exists
-            human = gets.chomp
         puts "What is this cat's name?"
             cat_name = gets.chomp
         puts "What color is this cat?"
@@ -100,25 +98,33 @@ class DirectoryController
             cat_breed = gets.chomp
         puts "What is this cat's favorite food?"
             cat_food = gets.chomp
-
         puts "Does this cat get along with other cats? (y/n)"
-        cat_temperament = gets.chomp
-        loop do
-            if cat_temperament == "y"
-                cat_temperament = true
-                break
-            elsif cat_temperament == "n"
-                cat_temperament = false
-                break
-            else
-                puts "Please enter y or n."
+            cat_temperament = gets.chomp
+            loop do
+                if cat_temperament == "y"
+                    cat_temperament = true
+                    break
+                elsif cat_temperament == "n"
+                    cat_temperament = false
+                    break
+                else
+                    puts "Please enter y or n."
+                end
             end
-        end
+        puts "Would you like to set this cat's owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
+            set_owner = gets.chomp
+            loop do
+                if set_owner == "y"
+                    edit_cat_info
+                    break
+                elsif set_owner == "n"
+                    break
+                else
+                    puts "Please enter y or n."
+                end
+            end
         
-        # Owner.create(name: human)
-        # TODO link user with cat
         Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
-        
     end
 
     def remove
@@ -153,6 +159,10 @@ class DirectoryController
             when 3
                 main_menu
         end
+    end
+
+    def crazy_cat_lady
+        Owner.all.select { |x| x.cats }.sum
     end
 
 end
