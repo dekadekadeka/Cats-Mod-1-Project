@@ -4,6 +4,8 @@ class DirectoryController
         main_menu
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
     def return_to_main?
         puts "\nReturn to main menu? (y/n)"
         choice = gets.chomp
@@ -18,6 +20,8 @@ class DirectoryController
         end
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
     def main_menu
         puts "\nHELLO! Welcome to the Atlanta Cat Directory!"
         puts "\nYou can use this directory to do any of the following things:"
@@ -30,6 +34,7 @@ class DirectoryController
         puts "  7 - See which neighbor is the Crazy Cat Lady."
         puts "  8 - Update your information."
         puts "  9 - Update a cat's information."
+        puts "  10 - Exit the program"
 
         choice = gets.chomp
 
@@ -61,21 +66,30 @@ class DirectoryController
             when 9
                 update_cat_info
                 return_to_main?
+            when 10
+                puts "Bye for now! 😻"
+                quit
             else
-                puts "\nInvalid Entry. Please enter a choice, 1-9."
+                puts "\nInvalid Entry. Please enter a choice, 1-10."
                 main_menu
         end
     end
+
+# ---------------------------------------------------------------------------------------------------------
 
     def list_cats
         # lists all known cats and their attributes
         Cat.all.select { |x| puts x.name }
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
     def list_owners
         # list all known owners and their attributes
         Owner.all.select { |x| puts x.name }
     end
+
+# ---------------------------------------------------------------------------------------------------------
 
     def add_cat
         puts "    /\\__/\\"
@@ -127,6 +141,8 @@ class DirectoryController
         Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
     def remove
         puts "\nWhich would you like to remove?"
         puts "  1. Yourself"
@@ -161,6 +177,8 @@ class DirectoryController
         end
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
     def compare_cats
         puts "Which two cats would you like to compare?"
         puts "or type 'exit' to go back to the main menu"
@@ -194,6 +212,33 @@ class DirectoryController
         end
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
+    def cats_favorite_food
+        puts "1. Food you need to attract a specific cat"
+        puts "2. All cats that prefer wet food"
+        puts "3. All cats that prefer dry food"
+        puts "4. Go back to main menu"
+        choice = gets.chomp
+        case (choice.to_i)
+            when 1
+                puts "Which cat would you like to attract?"
+                cat_food_name = gets.chomp
+                cat_fav_food = Cat.find_by(name: cat_food_name).favorite_food
+                puts "#{cat_food_name} prefers #{cat_fav_food} food."
+            when 2
+                puts "Cats that prefer wet food:"
+                Cat.where(:favorite_food => "wet").select {|cat| puts cat.name}
+            when 3
+                puts "Cats that prefer dry food:"
+                Cat.where(:favorite_food => "dry").select {|cat| puts cat.name}
+            when 4
+                main_menu
+        end
+    end
+
+# ---------------------------------------------------------------------------------------------------------
+
     def crazy_cat_lady
         cat_count = Owner.all.map {|owner| owner.cats}.max{|cats| cats.length}.count
         most_owner = Owner.all.select {|owner| owner.cats.max}.last
@@ -201,12 +246,7 @@ class DirectoryController
         puts "The person with the most cats is #{most_owner.name} with #{cat_count} cats! 🙀"
     end
 
-    # 8 - Update your information
-    # Asks user for first name
-    # Compares name to database via (name: )
-    # Gives list of what they can change
-    # User selects one attribute
-    # 
+# ---------------------------------------------------------------------------------------------------------
 
     def update_owner_info
         puts "\nPlease enter your first name and then press the RETURN key."
@@ -272,9 +312,12 @@ class DirectoryController
     owner.save
     end
 
+# ---------------------------------------------------------------------------------------------------------
+
     def edit_cat_info
     
     end
 
+# ---------------------------------------------------------------------------------------------------------
 
 end
