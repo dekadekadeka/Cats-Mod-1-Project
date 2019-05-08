@@ -161,10 +161,8 @@ class DirectoryController
         end
     end
 
-<<<<<<< HEAD
     def crazy_cat_lady
         Owner.all.select { |x| x.cats }.sum
-=======
     def compare_cats
         puts "Which two cats would you like to compare?"
         puts "or type 'exit' to go back to the main menu"
@@ -196,7 +194,6 @@ class DirectoryController
                     puts "These cats don't get along with anybody!!"
             end
         end
->>>>>>> fb962e72f9b87c08e68f8f951b86850788b97d48
     end
 
 end
