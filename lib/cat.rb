@@ -1,4 +1,4 @@
 class Cat < ActiveRecord::Base
-    has_many :neighborhoods
-    has_many :owners, through: :neighborhoods
+    belongs_to :neighborhood
+    belongs_to :owner
 end

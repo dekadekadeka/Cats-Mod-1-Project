@@ -1,4 +1,4 @@
 class Neighborhood < ActiveRecord::Base
-    belongs_to :cat
-    belongs_to :owner
+    has_many :cats
+    has_many :owners, through: :cats
 end
