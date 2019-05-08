@@ -174,7 +174,9 @@ class DirectoryController
                 puts ""
                 compare_cats
             else
-                if cat_1.temperament == true && cat_2.temperament == true
+                if cat_1.name == cat_2.name
+                    puts "That's the same cat..."
+                elsif cat_1.temperament == true && cat_2.temperament == true
                     puts "These cats get along with everyone 😻"
                 elsif cat_1.temperament == true && cat_2.temperament == false
                     puts "These cats will NOT get along!"
@@ -182,8 +184,6 @@ class DirectoryController
                     puts "These cats will NOT get along!"
                 elsif cat_1.temperament == false && cat_2.temperament == false
                     puts "These cats don't get along with anybody!!"
-                elsif cat_1.name == cat_2.name
-                    puts "That's the same cat..."
             end
         end
     end
