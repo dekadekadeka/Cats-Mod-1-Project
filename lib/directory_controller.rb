@@ -34,7 +34,7 @@ class DirectoryController
         choice = gets.chomp
 
         case (choice.to_i)
-            when 1 
+            when 1
                 list_cats
                 return_to_main?
             when 2
@@ -123,7 +123,7 @@ class DirectoryController
                     puts "Please enter y or n."
                 end
             end
-        
+
         Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
     end
 
@@ -161,8 +161,6 @@ class DirectoryController
         end
     end
 
-    def crazy_cat_lady
-        Owner.all.select { |x| x.cats }.sum
     def compare_cats
         puts "Which two cats would you like to compare?"
         puts "or type 'exit' to go back to the main menu"
@@ -195,7 +193,7 @@ class DirectoryController
             end
         end
     end
-    
+
     def compare_cats
         puts "Which two cats would you like to compare?"
         puts "or type 'exit' to go back to the main menu"
@@ -232,8 +230,8 @@ class DirectoryController
     def most_cats
         cat_count = Owner.all.map {|owner| owner.cats}.max{|cats| cats.length}.count
         most_owner = Owner.all.select {|owner| owner.cats.max}.last
-    
-        puts "The person with the most cats is #{most_owner.name} with #{cat_count} cats! 🙀" 
+
+        puts "The person with the most cats is #{most_owner.name} with #{cat_count} cats! 🙀"
     end
 
 end
