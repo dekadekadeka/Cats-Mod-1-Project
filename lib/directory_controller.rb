@@ -188,4 +188,11 @@ class DirectoryController
         end
     end
 
+    def most_cats
+        cat_count = Owner.all.map {|owner| owner.cats}.max{|cats| cats.length}.count
+        most_owner = Owner.all.select {|owner| owner.cats.max}.last
+    
+        puts "The person with the most cats is #{most_owner.name} with #{cat_count} cats! 🙀" 
+    end
+
 end
