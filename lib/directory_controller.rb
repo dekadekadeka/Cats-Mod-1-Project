@@ -7,7 +7,6 @@ class DirectoryController
     def return_to_main?
         puts "Return to main menu? (y/n)"
         choice = gets.chomp
-
         if choice == "y"
             main_menu
         elsif choice == "n"
@@ -52,6 +51,7 @@ class DirectoryController
                 return_to_main?
             when 6
                 cats_favorite_food
+                return_to_main?
             when 7
                 most_cats
                 return_to_main?
@@ -62,35 +62,35 @@ class DirectoryController
                 update_cat_info
                 return_to_main?
             else
-                puts "Invalid Entry. Please enter a choice 1-9."
+                puts "Invalid Entry. Please enter a choice, 1-9."
                 main_menu
         end
     end
 
     def list_cats
         # lists all known cats and their attributes
-        Cat.all.name
+        Cat.all.select { |x| puts x.name }
     end
 
     def list_owners
         # list all known owners and their attributes
-        Owner.all
+        Owner.all.select { |x| puts x.name }
     end
 
     def add_cat
-        # puts "    /\\__/\\"
-        # puts "   /'    \'\\"
-        # puts " === 0  0 ==="
-        # puts "   \\  --  /"
-        # puts "  /        \\"
-        # puts " /          \\"
-        # puts "|            |"
-        # puts " \\  ||  ||  /"
-        # puts "  \\_oo__oo_/#######o"
+        puts "    /\\__/\\"
+        puts "   /'    \'\\"
+        puts " === 0  0 ==="
+        puts "   \\  --  /"
+        puts "  /        \\"
+        puts " /          \\"
+        puts "|            |"
+        puts " \\  ||  ||  /"
+        puts "  \\_oo__oo_/#######o"
 
         puts "\nADD A CAT!"
 
-        puts "\nWhat is your name?"  # Link user with new cat
+        puts "\nWhat is your name?"  # Link user with new cat, check if user already exists
             human = gets.chomp
         puts "What is this cat's name?"
             cat_name = gets.chomp
@@ -100,23 +100,24 @@ class DirectoryController
             cat_breed = gets.chomp
         puts "What is this cat's favorite food?"
             cat_food = gets.chomp
+
+        puts "Does this cat get along with other cats? (y/n)"
+        cat_temperament = gets.chomp
         loop do
-            puts "Does this cat get along with other cats? (y/n)"
-            cat_temperament = gets.chomp
-                if cat_temperament == "y"
-                    cat_temperament = true
-                    break
-                elsif cat_temperament == "n"
-                    cat_temperament = false
-                    break
-                else
-                    puts "Please enter y or n."
-                end
+            if cat_temperament == "y"
+                cat_temperament = true
+                break
+            elsif cat_temperament == "n"
+                cat_temperament = false
+                break
+            else
+                puts "Please enter y or n."
+            end
         end
         
         # Owner.create(name: human)
         # TODO link user with cat
-        Cat.create(name: cat_name, color: cat_color, breed: cat_breed, favorite_food: cat_food, temperament: cat_temperament)
+        Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
         
     end
 
