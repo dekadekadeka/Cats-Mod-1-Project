@@ -314,8 +314,39 @@ class DirectoryController
 
 # ---------------------------------------------------------------------------------------------------------
 
-    def edit_cat_info
-    
+    def update_cat_info
+        puts "\nPlease enter your cat's name and then press the RETURN key."
+            kitty_name = gets.chomp
+            kitty = Cat.all.find_by(name: kitty_name)
+        puts "\nHowdy, #{kitty_name}'s owner! What information would you like to update?"
+        puts "\n   1 - #{kitty_name}'s favorite food"
+        puts "   2 - #{kitty_name}'s temperament with other cats"
+        puts "   3 - Return to main menu"
+            choice = gets.chomp
+                case (choice.to_i)
+                when 1 #food
+                    puts "\nWhich type of cat food does #{kitty_name} prefer, wet or dry?"
+                    new_fav_food = gets.chomp
+                    kitty.favorite_food = new_fav_food
+                when 2 #temperament
+                    puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
+                    new_temperament = gets.chomp
+                    loop do
+                        if new_temperament == "y"
+                            new_temperament = true
+                            break
+                        elsif new_temperament == "n"
+                            new_temperament = false
+                            break
+                        else
+                            puts "\nPlease enter 'y' or 'n'."
+                        end
+                    end
+                    kitty.temperament = new_temperament
+                when 3
+                    main_menu
+                end
+    kitty.save
     end
 
 # ---------------------------------------------------------------------------------------------------------
