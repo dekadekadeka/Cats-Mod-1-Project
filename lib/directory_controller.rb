@@ -122,6 +122,7 @@ class DirectoryController
                 else
                     puts "Please enter y or n."
                 end
+            end
         
         Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
     end
