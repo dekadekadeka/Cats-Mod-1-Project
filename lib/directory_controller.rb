@@ -53,7 +53,7 @@ class DirectoryController
                 cats_favorite_food
                 return_to_main?
             when 7
-                most_cats
+                crazy_cat_lady
                 return_to_main?
             when 8
                 update_owner_info
@@ -159,6 +159,10 @@ class DirectoryController
             when 3
                 main_menu
         end
+    end
+
+    def crazy_cat_lady
+        Owner.all.select { |x| x.cats }.sum
     end
 
 end
