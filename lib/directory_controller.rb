@@ -128,27 +128,30 @@ class DirectoryController
             cat_breed = gets.chomp
         puts "\nWhich type of cat food does #{cat_name} prefer? Please enter 'wet' or 'dry'."
             cat_food = gets.chomp
-        loop do
+
+        cat_temp_loop = true
+        while cat_temp_loop do
             puts "\nDoes #{cat_name} get along with other cats? Please enter 'y' or 'n'."
             cat_temperament = gets.chomp
                 if cat_temperament == "y"
                     cat_temperament = true
-                    break
+                    cat_temp_loop = false
                 elsif cat_temperament == "n"
                     cat_temperament = false
-                    break
+                    cat_temp_loop = false
                 else
                     puts "\nPlease enter 'y' or 'n'."
                 end
         end
-        loop do
+        set_owner_loop = true
+        while set_owner_loop do
             puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
             set_owner = gets.chomp
                 if set_owner == "y"
                     edit_cat_info
-                    break
+                    set_owner_loop = false
                 elsif set_owner == "n"
-                    break
+                    set_owner_loop = false
                 else
                     puts "\nPlease enter 'y' or 'n'."
                 end
@@ -286,30 +289,32 @@ class DirectoryController
                     new_food = gets.chomp
                     owner.food_provided = new_food
                 when 3 #cat?
-                    loop do
+                    cat_status_loop = true
+                    while cat_status_loop do
                         puts "\nDo you currently own a cat? Please enter y or n."
                         cat_status = gets.chomp
                             if cat_status == "y"
                                 cat_status = true
-                                break
+                                cat_status_loop = false
                             elsif cat_status == "n"
                                 cat_status = false
-                                break
+                                lcat_status_loop = false
                             else
                                 puts "\nPlease enter y or n."
                             end
                     end
                     owner.cat_already = cat_status
                 when 4 #dog?
-                    loop do
+                    dog_status_loop = true
+                    while dog_status_loop do
                         puts "\nDo you currently own a dog? Please enter y or n."
                         dog_status = gets.chomp
                             if dog_status == "y"
                                 dog_status = true
-                                break
+                                dog_status_loop = false
                             elsif dog_status == "n"
                                 dog_status = false
-                                break
+                                dog_status_loop = false
                             else
                                 puts "\nPlease enter y or n."
                             end
@@ -345,15 +350,16 @@ class DirectoryController
                     new_fav_food = gets.chomp
                     kitty.favorite_food = new_fav_food
                 when 2 #temperament
-                    loop do
+                    new_temp_loop = true
+                    while new_temp_loop do
                         puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
                         new_temperament = gets.chomp
                             if new_temperament == "y"
                                 new_temperament = true
-                                break
+                                new_temp_loop = false
                             elsif new_temperament == "n"
                                 new_temperament = false
-                                break
+                                new_temp_loop = false
                             else
                                 puts "\nPlease enter 'y' or 'n'."
                             end
