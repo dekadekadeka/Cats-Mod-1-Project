@@ -143,6 +143,9 @@ class DirectoryController
                     puts "\nPlease enter 'y' or 'n'."
                 end
         end
+
+        Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
+        
         set_owner_loop = true
         while set_owner_loop do
             puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
@@ -157,7 +160,6 @@ class DirectoryController
                 end
         end
 
-        Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
     end
 
 # ---------------------------------------------------------------------------------------------------------
