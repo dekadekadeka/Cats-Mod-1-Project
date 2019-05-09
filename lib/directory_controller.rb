@@ -254,10 +254,10 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def crazy_cat_lady
-        cat_count = Owner.all.map {|owner| owner.cats}.max{|cats| cats.length}.count
-        most_owner = Owner.all.select {|owner| owner.cats.max}.last
-
-        puts "The person with the most cats is #{most_owner.name} with #{cat_count} cats! 🙀"
+        cat_lady = Owner.all.inject do |memo, owner|
+            memo.cats.count > owner.cats.count ? memo : owner
+        end
+        puts "The person with the most cats is #{cat_lady.name} with #{cat_lady.cats.count} cats! 🙀"
     end
 
 # ---------------------------------------------------------------------------------------------------------
