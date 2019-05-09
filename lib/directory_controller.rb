@@ -23,21 +23,7 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def main_menu
-        
-
         puts "\nHELLO! Welcome to the Atlanta Cat Directory!"
-        # puts "\nYou can use this directory to do any of the following things:"
-        # puts "\n  1 - List all of the cats that live in Atlanta."
-        # puts "  2 - List all of your fellow Atlanta residents."
-        # puts "  3 - Add your cat to the directory."
-        # puts "  4 - Remove yourself or your cat from the directory."
-        # puts "  5 - Compare two cats to see if they'll live harmoniously."
-        # puts "  6 - See which type of food will attract a certain cat."
-        # puts "  7 - See which neighbor is the Crazy Cat Lady."
-        # puts "  8 - Update your information."
-        # puts "  9 - Update a cat's information."
-        # puts "  10 - Exit the program"
-
         prompt = TTY::Prompt.new
         choices = {
             "  1 - List all of the cats that live in Atlanta." => 1,
@@ -50,9 +36,7 @@ class DirectoryController
             "  8 - Update your information." => 8,
             "  9 - Update a cat's information." => 9,
             "  10 - Exit the program" => 10 }
-        choice = prompt.select("What would you like to do? Scroll to your choice with the arrow keys and then press ENTER.", choices, per_page: 10)
-            
-        # choice = gets.chomp
+        choice = prompt.select("\nWhat would you like to do?\n", choices, per_page: 10)
 
         case (choice.to_i)
             when 1
@@ -92,20 +76,21 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 1 - List all of the cats that live in Atlanta
 
     def list_cats
-        # lists all known cats and their attributes
         Cat.all.select { |x| puts x.name }
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 2 - List all of your fellow Atlanta residents
 
     def list_owners
-        # list all known owners and their attributes
         Owner.all.select { |x| puts x.name }
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 3 - Add your cat to the directory
 
     def add_cat
         puts "    /\\__/\\"
@@ -163,36 +148,39 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 4 - Remove yourself or your cat from the directory
 
     def remove
-        puts "\nWhich would you like to remove?"
-        puts "  1. Yourself"
-        puts "  2. A cat"
-        puts "  3. Return to Main Menu"
-        choice = gets.chomp
+        prompt = TTY::Prompt.new
+        choices = {
+            "  1 - Yourself" => 1,
+            "  2 - A cat" => 2,
+            "  3 - Return to the Main Menu" => 3 }
+        choice = prompt.select("\nWhat would you like to remove from the directory?\n", choices, per_page: 3)
+
         case (choice.to_i)
             when 1
-                puts "What is your name?"
+                puts "\nWhat is your name?"
                 owner_name = gets.chomp
                 destroy = Owner.find_by(name: owner_name)
-                puts "All set, #{owner_name}! ☹️ So sad to see you go!"
+                puts "\nAll set, #{owner_name}! ☹️ So sad to see you go!"
                 if destroy.nil?
-                    puts "Sorry, this owner doesn't exist."
+                    puts "\nSorry, this owner doesn't exist."
                     remove
                 else
                     destroy.destroy
-                    puts "Bye!"
+                    puts "\nBye, #{owner_name}!"
                 end
             when 2
-                puts "😿 What is the cat's name?"
+                puts "\n😿 What is the cat's name?"
                 cat_name = gets.chomp
                 destroy = Cat.find_by(name: cat_name)
                 if destroy.nil?
-                    puts "Sorry, this cat doesn't exist."
+                    puts "\nSorry, this cat doesn't exist."
                     remove
                 else
                     destroy.destroy
-                    puts "Bye!"
+                    puts "\nSo long, sweet #{cat_name}!"
                 end
             when 3
                 main_menu
@@ -200,6 +188,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 5 - Compare two cats to see if they'll live harmoniously
 
     def compare_cats
         puts "\nWhich two cats would you like to compare?"
@@ -234,19 +223,22 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 6 - See which type of food will attract a certain cat
 
     def cats_favorite_food
-        puts "\n1. Food required to attract a specific cat"
-        puts "2. All cats that prefer wet food"
-        puts "3. All cats that prefer dry food"
-        puts "4. Go back to the Main Menu"
-        choice = gets.chomp
+        prompt = TTY::Prompt.new
+        choices = {
+            "  1 - See which type of food you'll to put out to attract a specific cat" => 1,
+            "  2 - View all of the cats that prefer wet food" => 2,
+            "  3 - View all of the cats that prefer dry food" => 3,
+            "  4 - Return to the Main Menu" => 4 }
+        choice = prompt.select("\nIf you're lonley and want a cat, here's the info you'll need to attract one!\n", choices, per_page: 4)
         case (choice.to_i)
             when 1
                 puts "\nWhich cat would you like to attract?"
                 cat_food_name = gets.chomp
                 cat_fav_food = Cat.find_by(name: cat_food_name).favorite_food
-                puts "#{cat_food_name} prefers #{cat_fav_food} food."
+                puts "\n#{cat_food_name} prefers #{cat_fav_food} food."
             when 2
                 puts "\nCats that prefer wet food:"
                 Cat.where(:favorite_food => "wet").select {|cat| puts cat.name}
@@ -259,6 +251,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 7 - See which neighbor is the Crazy Cat Lady
 
     def crazy_cat_lady
         cat_lady = Owner.all.inject do |memo, owner|
@@ -268,112 +261,125 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 8 - Update your information
 
     def update_owner_info
         puts "\nPlease enter your first name and then press the RETURN key."
             first_name = gets.chomp
             owner = Owner.all.find_by(name: first_name)
-        puts "\nHowdy, #{first_name}! What information would you like to update?"
-        puts "\n   1 - Your address"
-        puts "   2 - The type of food you leave on the porch (wet or dry)"
-        puts "   3 - Your cat ownership status"
-        puts "   4 - Your dog ownership status"
-        puts "   5 - Your current neighborhood"
-        puts "   6 - Return to main menu"
-            choice = gets.chomp
-                case (choice.to_i)
-                when 1 #address
-                    puts "\nWhat is your new address?  format: 221-B Baker Street"
-                    new_address = gets.chomp
-                    owner.address = new_address
-                when 2 #food
-                    puts "\nWhat type of food are you leaving out on your porch, wet or dry?"
-                    new_food = gets.chomp
-                    owner.food_provided = new_food
-                when 3 #cat?
-                    cat_status_loop = true
-                    while cat_status_loop do
-                        puts "\nDo you currently own a cat? Please enter y or n."
-                        cat_status = gets.chomp
-                            if cat_status == "y"
-                                cat_status = true
-                                cat_status_loop = false
-                            elsif cat_status == "n"
-                                cat_status = false
-                                lcat_status_loop = false
-                            else
-                                puts "\nPlease enter y or n."
-                            end
-                    end
-                    owner.cat_already = cat_status
-                when 4 #dog?
-                    dog_status_loop = true
-                    while dog_status_loop do
-                        puts "\nDo you currently own a dog? Please enter y or n."
-                        dog_status = gets.chomp
-                            if dog_status == "y"
-                                dog_status = true
-                                dog_status_loop = false
-                            elsif dog_status == "n"
-                                dog_status = false
-                                dog_status_loop = false
-                            else
-                                puts "\nPlease enter y or n."
-                            end
-                    end
-                    owner.dog = dog_status
-                when 5 #neighborhood
-                    puts "\nIn which neighborhood are you currently living?"
-                    new_hood = gets.chomp
-                    puts "\nCity and state?"
-                    city_state = gets.chomp
-                        new_hood_instance = Neighborhood.create(new_hood, city_state)
-                    owner.neighborhood_id = new_hood_instance.id
-                when 6
-                    main_menu
+
+            prompt = TTY::Prompt.new
+            choices = {
+                "  1 - Your address" => 1,
+                "  2 - The type of food you leave on the porch (please enter 'wet' or 'dry')" => 2,
+                "  3 - Your cat ownership status" => 3,
+                "  4 - Your dog ownership status" => 4,
+                "  5 - Your current neighborhood" => 5,
+                "  6 - Return to the Main Menu" => 6 }
+            choice = prompt.select("\nHowdy, #{first_name}! What information would you like to update?\n", choices, per_page: 6)
+
+            case (choice.to_i)
+            when 1 #address
+                puts "\nWhat is your new address?  format: 221-B Baker Street"
+                new_address = gets.chomp
+                owner.address = new_address
+            when 2 #food
+                puts "\nWhat type of food are you leaving out on your porch, wet or dry?"
+                new_food = gets.chomp
+                owner.food_provided = new_food
+            when 3 #cat?
+                cat_status_loop = true
+                while cat_status_loop do
+                    puts "\nDo you currently own a cat? Please enter y or n."
+                    cat_status = gets.chomp
+                        if cat_status == "y"
+                            cat_status = true
+                            cat_status_loop = false
+                        elsif cat_status == "n"
+                            cat_status = false
+                            lcat_status_loop = false
+                        else
+                            puts "\nPlease enter y or n."
+                        end
                 end
+                owner.cat_already = cat_status
+            when 4 #dog?
+                dog_status_loop = true
+                while dog_status_loop do
+                    puts "\nDo you currently own a dog? Please enter y or n."
+                    dog_status = gets.chomp
+                        if dog_status == "y"
+                            dog_status = true
+                            dog_status_loop = false
+                        elsif dog_status == "n"
+                            dog_status = false
+                            dog_status_loop = false
+                        else
+                            puts "\nPlease enter y or n."
+                        end
+                end
+                owner.dog = dog_status
+            when 5 #neighborhood
+                puts "\nIn which neighborhood are you currently living?"
+                new_hood = gets.chomp
+                puts "\nCity and state?"
+                city_state = gets.chomp
+                    new_hood_instance = Neighborhood.create(new_hood, city_state)
+                owner.neighborhood_id = new_hood_instance.id
+            when 6
+                main_menu
+            end
     owner.save
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 9 - Update a cat's information
 
     def edit_cat_info
         puts "\nPlease enter your cat's name and then press the RETURN key."
             kitty_name = gets.chomp
             kitty = Cat.all.find_by(name: kitty_name)
-        puts "\nHowdy, #{kitty_name}'s owner! What information would you like to update?"
-        puts "\n   1 - #{kitty_name}'s favorite food"
-        puts "   2 - #{kitty_name}'s temperament with other cats"
-        puts "   3 - Return to main menu"
-            choice = gets.chomp
-                case (choice.to_i)
-                when 1 #food
-                    puts "\nWhich type of cat food does #{kitty_name} prefer, wet or dry?"
-                    new_fav_food = gets.chomp
-                    kitty.favorite_food = new_fav_food
-                when 2 #temperament
-                    new_temp_loop = true
-                    while new_temp_loop do
-                        puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
-                        new_temperament = gets.chomp
-                            if new_temperament == "y"
-                                new_temperament = true
-                                new_temp_loop = false
-                            elsif new_temperament == "n"
-                                new_temperament = false
-                                new_temp_loop = false
-                            else
-                                puts "\nPlease enter 'y' or 'n'."
-                            end
-                    end
-                    kitty.temperament = new_temperament
-                when 3
-                    main_menu
+
+            prompt = TTY::Prompt.new
+            choices = {
+                "  1 - #{kitty_name}'s favorite food" => 1,
+                "  2 - #{kitty_name}'s temperament with other cats" => 2,
+                "  6 - Return to the Main Menu" => 3 }
+            choice = prompt.select("\nHowdy, #{kitty_name}'s owner! What information would you like to update?\n", choices, per_page: 3)
+        # puts "\nHowdy, #{kitty_name}'s owner! What information would you like to update?"
+        # puts "\n   1 - #{kitty_name}'s favorite food"
+        # puts "   2 - #{kitty_name}'s temperament with other cats"
+        # puts "   3 - Return to main menu"
+        #     choice = gets.chomp
+            case (choice.to_i)
+            when 1 #food
+                puts "\nWhich type of cat food does #{kitty_name} prefer, wet or dry?"
+                new_fav_food = gets.chomp
+                kitty.favorite_food = new_fav_food
+            when 2 #temperament
+                new_temp_loop = true
+                while new_temp_loop do
+                    puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
+                    new_temperament = gets.chomp
+                        if new_temperament == "y"
+                            new_temperament = true
+                            new_temp_loop = false
+                        elsif new_temperament == "n"
+                            new_temperament = false
+                            new_temp_loop = false
+                        else
+                            puts "\nPlease enter 'y' or 'n'."
+                        end
                 end
+                kitty.temperament = new_temperament
+            when 3
+                main_menu
+            end
     kitty.save
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 10 - Exit the program
 
     def quit
         pid = fork{ exec 'killall', 'afplay' }
