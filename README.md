@@ -1,3 +1,13 @@
+#Hello and Welcome to the ATL Cat Directory!
+To begin, please go to the same directory you cloned this repo into in the terminal
+and then type in 
+```ruby
+ruby lib/title.rb
+```
+
+Run bundle install in order to get all the required gems if necessary.
+Thank you and have fun!!!
+
 # Module One Final Project Guidelines
 
 Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
