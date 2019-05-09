@@ -23,6 +23,8 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def main_menu
+        
+
         puts "\nHELLO! Welcome to the Atlanta Cat Directory!"
         # puts "\nYou can use this directory to do any of the following things:"
         # puts "\n  1 - List all of the cats that live in Atlanta."
@@ -366,6 +368,7 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def quit
+        pid = fork{ exec 'killall', 'afplay' }
         exit
     end
 
