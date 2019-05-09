@@ -110,7 +110,7 @@ class DirectoryController
             cat_color = gets.chomp
         puts "\nWhat breed is this cat?"
             cat_breed = gets.chomp
-        puts "\nWhat is this cat's favorite food?"
+        puts "\nWhat is this cat's favorite food? Wet or dry"
             cat_food = gets.chomp
         puts "\nDoes this cat get along with other cats? (y/n)"
             cat_temperament = gets.chomp
