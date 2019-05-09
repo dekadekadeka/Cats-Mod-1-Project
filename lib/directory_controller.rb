@@ -80,7 +80,7 @@ class DirectoryController
                 update_owner_info
                 return_to_main?
             when 9
-                update_cat_info
+                edit_cat_info
                 return_to_main?
             when 10
                 puts "Bye for now! 😻"
@@ -118,19 +118,19 @@ class DirectoryController
         puts " \\  ||  ||  /"
         puts "  \\_oo__oo_/#######o"
 
-        puts "\nADD A CAT!"
+        puts "\nLET'S ADD A FREAKING CAT!"
 
-        puts "\nWhat is this cat's name?"
+        puts "\nWhat is your cat's name?"
             cat_name = gets.chomp
-        puts "\nWhat color is this cat?"
+        puts "\nWhat color is #{cat_name}?"
             cat_color = gets.chomp
-        puts "\nWhat breed is this cat?"
+        puts "\nWhat breed is #{cat_name}?"
             cat_breed = gets.chomp
-        puts "\nWhat is this cat's favorite food? Wet or dry"
+        puts "\nWhich type of cat food does #{cat_name} prefer? Please enter 'wet' or 'dry'."
             cat_food = gets.chomp
-        puts "\nDoes this cat get along with other cats? (y/n)"
+        loop do
+            puts "\nDoes #{cat_name} get along with other cats? Please enter 'y' or 'n'."
             cat_temperament = gets.chomp
-            loop do
                 if cat_temperament == "y"
                     cat_temperament = true
                     break
@@ -138,21 +138,21 @@ class DirectoryController
                     cat_temperament = false
                     break
                 else
-                    puts "\nPlease enter y or n."
+                    puts "\nPlease enter 'y' or 'n'."
                 end
-            end
-        puts "\nWould you like to set this cat's owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
+        end
+        loop do
+            puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
             set_owner = gets.chomp
-            loop do
                 if set_owner == "y"
                     edit_cat_info
                     break
                 elsif set_owner == "n"
                     break
                 else
-                    puts "\nPlease enter y or n."
+                    puts "\nPlease enter 'y' or 'n'."
                 end
-            end
+        end
 
         Cat.create(name: cat_name, breed: cat_breed, color: cat_color, favorite_food: cat_food, temperament: cat_temperament)
     end
@@ -163,26 +163,27 @@ class DirectoryController
         puts "\nWhich would you like to remove?"
         puts "  1. Yourself"
         puts "  2. A cat"
-        puts "  3. I changed my mind"
+        puts "  3. Return to Main Menu"
         choice = gets.chomp
         case (choice.to_i)
             when 1
-                puts "☹️ So sad to see you go... what's your name?"
+                puts "What is your name?"
                 owner_name = gets.chomp
                 destroy = Owner.find_by(name: owner_name)
+                puts "All set, #{owner_name}! ☹️ So sad to see you go!"
                 if destroy.nil?
-                    puts "This owner doesn't exist"
+                    puts "Sorry, this owner doesn't exist."
                     remove
                 else
                     destroy.destroy
                     puts "Bye!"
                 end
             when 2
-                puts "😿 What's the cat's name?"
+                puts "😿 What is the cat's name?"
                 cat_name = gets.chomp
                 destroy = Cat.find_by(name: cat_name)
                 if destroy.nil?
-                    puts "This cat doesn't exist"
+                    puts "Sorry, this cat doesn't exist."
                     remove
                 else
                     destroy.destroy
@@ -196,34 +197,33 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def compare_cats
-        puts "Which two cats would you like to compare?"
-        puts "or type 'exit' to go back to the main menu"
-        puts "Name of first cat:"
+        puts "\nWhich two cats would you like to compare?"
+        puts "\nOr, you can type 'exit' to go back to the Main Menu."
+        puts "\nPlease enter the name of first cat you'd like to compare..."
         first = gets.chomp
             if first == "exit"
                 main_menu
             end
-        puts "Name of second cat:"
+        puts "\nPlease enter the name of second cat..."
         second = gets.chomp
         cat_1 = Cat.find_by(name: first)
         cat_2 = Cat.find_by(name: second)
         case
             when cat_1.nil? || cat_2.nil?
-                puts "One of both of those cats isn't in the database."
-                puts "Please put in a valid name"
-                puts ""
+                puts "\nOne or both of those cats is not in the database."
+                puts "\nPlease put in a valid name"
                 compare_cats
             else
                 if cat_1.name == cat_2.name
-                    puts "That's the same cat..."
+                    puts "\nThat's the same cat..."
                 elsif cat_1.temperament == true && cat_2.temperament == true
-                    puts "These cats get along with everyone 😻"
+                    puts "\nThese cats get along with everyone 😻"
                 elsif cat_1.temperament == true && cat_2.temperament == false
-                    puts "These cats will NOT get along! 😾"
+                    puts "\nThese cats will NOT get along! 😾"
                 elsif cat_1.temperament == false && cat_2.temperament == true
-                    puts "These cats will NOT get along! 😾"
+                    puts "\nThese cats will NOT get along! 😾"
                 elsif cat_1.temperament == false && cat_2.temperament == false
-                    puts "These cats don't get along with anybody!! 😾"
+                    puts "\nThese cats don't get along with anybody!! 😾"
             end
         end
     end
@@ -231,22 +231,22 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def cats_favorite_food
-        puts "1. Food you need to attract a specific cat"
+        puts "\n1. Food required to attract a specific cat"
         puts "2. All cats that prefer wet food"
         puts "3. All cats that prefer dry food"
-        puts "4. Go back to main menu"
+        puts "4. Go back to the Main Menu"
         choice = gets.chomp
         case (choice.to_i)
             when 1
-                puts "Which cat would you like to attract?"
+                puts "\nWhich cat would you like to attract?"
                 cat_food_name = gets.chomp
                 cat_fav_food = Cat.find_by(name: cat_food_name).favorite_food
                 puts "#{cat_food_name} prefers #{cat_fav_food} food."
             when 2
-                puts "Cats that prefer wet food:"
+                puts "\nCats that prefer wet food:"
                 Cat.where(:favorite_food => "wet").select {|cat| puts cat.name}
             when 3
-                puts "Cats that prefer dry food:"
+                puts "\nCats that prefer dry food:"
                 Cat.where(:favorite_food => "dry").select {|cat| puts cat.name}
             when 4
                 main_menu
@@ -286,33 +286,33 @@ class DirectoryController
                     new_food = gets.chomp
                     owner.food_provided = new_food
                 when 3 #cat?
-                    puts "\nDo you currently own a cat? Please enter y or n."
-                    cat_status = gets.chomp
                     loop do
-                        if cat_status == "y"
-                            cat_status = true
-                            break
-                        elsif cat_status == "n"
-                            cat_status = false
-                            break
-                        else
-                            puts "\nPlease enter y or n."
-                        end
+                        puts "\nDo you currently own a cat? Please enter y or n."
+                        cat_status = gets.chomp
+                            if cat_status == "y"
+                                cat_status = true
+                                break
+                            elsif cat_status == "n"
+                                cat_status = false
+                                break
+                            else
+                                puts "\nPlease enter y or n."
+                            end
                     end
                     owner.cat_already = cat_status
                 when 4 #dog?
-                    puts "\nDo you currently own a dog? Please enter y or n."
-                    dog_status = gets.chomp
                     loop do
-                        if dog_status == "y"
-                            dog_status = true
-                            break
-                        elsif dog_status == "n"
-                            dog_status = false
-                            break
-                        else
-                            puts "\nPlease enter y or n."
-                        end
+                        puts "\nDo you currently own a dog? Please enter y or n."
+                        dog_status = gets.chomp
+                            if dog_status == "y"
+                                dog_status = true
+                                break
+                            elsif dog_status == "n"
+                                dog_status = false
+                                break
+                            else
+                                puts "\nPlease enter y or n."
+                            end
                     end
                     owner.dog = dog_status
                 when 5 #neighborhood
@@ -330,7 +330,7 @@ class DirectoryController
 
 # ---------------------------------------------------------------------------------------------------------
 
-    def update_cat_info
+    def edit_cat_info
         puts "\nPlease enter your cat's name and then press the RETURN key."
             kitty_name = gets.chomp
             kitty = Cat.all.find_by(name: kitty_name)
@@ -345,18 +345,18 @@ class DirectoryController
                     new_fav_food = gets.chomp
                     kitty.favorite_food = new_fav_food
                 when 2 #temperament
-                    puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
-                    new_temperament = gets.chomp
                     loop do
-                        if new_temperament == "y"
-                            new_temperament = true
-                            break
-                        elsif new_temperament == "n"
-                            new_temperament = false
-                            break
-                        else
-                            puts "\nPlease enter 'y' or 'n'."
-                        end
+                        puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
+                        new_temperament = gets.chomp
+                            if new_temperament == "y"
+                                new_temperament = true
+                                break
+                            elsif new_temperament == "n"
+                                new_temperament = false
+                                break
+                            else
+                                puts "\nPlease enter 'y' or 'n'."
+                            end
                     end
                     kitty.temperament = new_temperament
                 when 3
