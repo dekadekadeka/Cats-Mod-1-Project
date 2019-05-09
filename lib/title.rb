@@ -19,8 +19,6 @@ Yb,_,dP       `8b, "Yb,,8P Yb,_,d88b,,_    `Yba,,_____,,d8,   ,d8b,,d88b,       
                                                                                                                                                                I8   8I 
                                                                                                                                                                `8, ,8I 
                                                                                                                                                                 `Y8P"  
-
-
 WORDS
 
 welcome = <<WELCOME
