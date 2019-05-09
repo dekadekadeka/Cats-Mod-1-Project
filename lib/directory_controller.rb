@@ -23,21 +23,7 @@ class DirectoryController
 # ---------------------------------------------------------------------------------------------------------
 
     def main_menu
-        
-
         puts "\nHELLO! Welcome to the Atlanta Cat Directory!"
-        # puts "\nYou can use this directory to do any of the following things:"
-        # puts "\n  1 - List all of the cats that live in Atlanta."
-        # puts "  2 - List all of your fellow Atlanta residents."
-        # puts "  3 - Add your cat to the directory."
-        # puts "  4 - Remove yourself or your cat from the directory."
-        # puts "  5 - Compare two cats to see if they'll live harmoniously."
-        # puts "  6 - See which type of food will attract a certain cat."
-        # puts "  7 - See which neighbor is the Crazy Cat Lady."
-        # puts "  8 - Update your information."
-        # puts "  9 - Update a cat's information."
-        # puts "  10 - Exit the program"
-
         prompt = TTY::Prompt.new
         choices = {
             "  1 - List all of the cats that live in Atlanta." => 1,
@@ -50,9 +36,7 @@ class DirectoryController
             "  8 - Update your information." => 8,
             "  9 - Update a cat's information." => 9,
             "  10 - Exit the program" => 10 }
-        choice = prompt.select("What would you like to do? Scroll to your choice with the arrow keys and then press ENTER.", choices, per_page: 10)
-            
-        # choice = gets.chomp
+        choice = prompt.select("\nWhat would you like to do?\n", choices, per_page: 10)
 
         case (choice.to_i)
             when 1
@@ -92,20 +76,21 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 1 - List all of the cats that live in Atlanta
 
     def list_cats
-        # lists all known cats and their attributes
         Cat.all.select { |x| puts x.name }
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 2 - List all of your fellow Atlanta residents
 
     def list_owners
-        # list all known owners and their attributes
         Owner.all.select { |x| puts x.name }
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 3 - Add your cat to the directory
 
     def add_cat
         puts "    /\\__/\\"
@@ -163,6 +148,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 4 - Remove yourself or your cat from the directory
 
     def remove
         puts "\nWhich would you like to remove?"
@@ -172,27 +158,27 @@ class DirectoryController
         choice = gets.chomp
         case (choice.to_i)
             when 1
-                puts "What is your name?"
+                puts "\nWhat is your name?"
                 owner_name = gets.chomp
                 destroy = Owner.find_by(name: owner_name)
-                puts "All set, #{owner_name}! ☹️ So sad to see you go!"
+                puts "\nAll set, #{owner_name}! ☹️ So sad to see you go!"
                 if destroy.nil?
-                    puts "Sorry, this owner doesn't exist."
+                    puts "\nSorry, this owner doesn't exist."
                     remove
                 else
                     destroy.destroy
-                    puts "Bye!"
+                    puts "\nBye!"
                 end
             when 2
-                puts "😿 What is the cat's name?"
+                puts "\n😿 What is the cat's name?"
                 cat_name = gets.chomp
                 destroy = Cat.find_by(name: cat_name)
                 if destroy.nil?
-                    puts "Sorry, this cat doesn't exist."
+                    puts "\nSorry, this cat doesn't exist."
                     remove
                 else
                     destroy.destroy
-                    puts "Bye!"
+                    puts "\nBye!"
                 end
             when 3
                 main_menu
@@ -200,6 +186,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 5 - Compare two cats to see if they'll live harmoniously
 
     def compare_cats
         puts "\nWhich two cats would you like to compare?"
@@ -234,19 +221,22 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 6 - See which type of food will attract a certain cat
 
     def cats_favorite_food
-        puts "\n1. Food required to attract a specific cat"
-        puts "2. All cats that prefer wet food"
-        puts "3. All cats that prefer dry food"
-        puts "4. Go back to the Main Menu"
-        choice = gets.chomp
+        prompt = TTY::Prompt.new
+        choices = {
+            "  1 - See which type of food you'll to put out to attract a specific cat" => 1,
+            "  2 - View all of the cats that prefer wet food" => 2,
+            "  3 - View all of the cats that prefer dry food" => 3,
+            "  4 - Return to the Main Menu" => 4 }
+        choice = prompt.select("\nIf you're lonley and want a cat, here's the info you'll need to attract one!\n", choices, per_page: 4)
         case (choice.to_i)
             when 1
                 puts "\nWhich cat would you like to attract?"
                 cat_food_name = gets.chomp
                 cat_fav_food = Cat.find_by(name: cat_food_name).favorite_food
-                puts "#{cat_food_name} prefers #{cat_fav_food} food."
+                puts "\n#{cat_food_name} prefers #{cat_fav_food} food."
             when 2
                 puts "\nCats that prefer wet food:"
                 Cat.where(:favorite_food => "wet").select {|cat| puts cat.name}
@@ -259,6 +249,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 7 - See which neighbor is the Crazy Cat Lady
 
     def crazy_cat_lady
         cat_lady = Owner.all.inject do |memo, owner|
@@ -268,6 +259,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 8 - Update your information
 
     def update_owner_info
         puts "\nPlease enter your first name and then press the RETURN key."
@@ -336,6 +328,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 9 - Update a cat's information
 
     def edit_cat_info
         puts "\nPlease enter your cat's name and then press the RETURN key."
@@ -374,6 +367,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
+# 10 - Exit the program
 
     def quit
         pid = fork{ exec 'killall', 'afplay' }
