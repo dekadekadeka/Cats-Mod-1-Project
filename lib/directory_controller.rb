@@ -169,7 +169,7 @@ class DirectoryController
                     remove
                 else
                     destroy.destroy
-                    puts "\nBye!"
+                    puts "\nBye, #{owner_name}!"
                 end
             when 2
                 puts "\n😿 What is the cat's name?"
@@ -180,7 +180,7 @@ class DirectoryController
                     remove
                 else
                     destroy.destroy
-                    puts "\nBye!"
+                    puts "\nSo long, sweet #{cat_name}!"
                 end
             when 3
                 main_menu
