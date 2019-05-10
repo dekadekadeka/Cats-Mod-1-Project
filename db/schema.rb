@@ -13,10 +13,10 @@
 ActiveRecord::Schema.define(version: 3) do
 
   create_table "cats", force: :cascade do |t|
-    t.string  "name"
-    t.string  "breed"
-    t.string  "color"
-    t.string  "favorite_food"
+    t.string "name"
+    t.string "breed"
+    t.string "color"
+    t.string "favorite_food"
     t.boolean "temperament"
     t.integer "neighborhood_id"
     t.integer "owner_id"
@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "owners", force: :cascade do |t|
-    t.string  "name"
-    t.string  "address"
-    t.string  "food_provided"
+    t.string "name"
+    t.string "address"
+    t.string "food_provided"
     t.boolean "cat_already"
     t.boolean "dog"
     t.integer "neighborhood_id"
