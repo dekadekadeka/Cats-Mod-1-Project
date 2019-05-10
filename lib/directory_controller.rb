@@ -518,7 +518,7 @@ class DirectoryController
             when 4
                 main_menu
             end
-    # kitty.save
+    kitty.save
     end
 
 # ---------------------------------------------------------------------------------------------------------
