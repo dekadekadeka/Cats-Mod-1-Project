@@ -113,6 +113,9 @@ class DirectoryController
             puts "Food provided: #{owner.food_provided.capitalize}"
             puts "Has a cat? #{owner.cat_already.to_s.capitalize} | Has a dog? #{owner.dog.to_s.capitalize}"
             puts "Lives in #{owner.neighborhood.name}"
+        all_cats = Cat.all.select { |x| x.owner_id == owner.id}
+        cats_list = all_cats.map{ |x| x.name }.join(", ")
+            puts "#{owner.name}'s cat(s): #{cats_list}"
             puts "\n----------------------------------------------------------------------------"
         end
     end
@@ -372,7 +375,7 @@ class DirectoryController
         cat_lady = Owner.all.inject do |memo, owner|
             memo.cats.count > owner.cats.count ? memo : owner
         end
-        puts "The person with the most cats is #{cat_lady.name} with #{cat_lady.cats.count} cats! 🙀"
+        puts "\nThe person with the most cats is #{cat_lady.name} with #{cat_lady.cats.count} cats! 🙀\n"
     end
 
 # ---------------------------------------------------------------------------------------------------------
