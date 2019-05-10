@@ -166,7 +166,7 @@ class DirectoryController
                     hood = Neighborhood.create(name: new_hood, location: city_state)
                 end
 
-        Owner.new(name: new_name, address: new_add, food_provided: new_food, cat_already: new_cat_status, dog: new_dog_status, neighborhood_id: hood )
+        Owner.create(name: new_name, address: new_add, food_provided: new_food, cat_already: new_cat_status, dog: new_dog_status, neighborhood_id: hood )
     end
 
 # ---------------------------------------------------------------------------------------------------------
@@ -365,29 +365,29 @@ class DirectoryController
                 new_address = gets.chomp
                 owner.address = new_address
             when 2 #food
-                puts "\nWhat type of food are you leaving out on your porch, wet or dry?"
+                puts "\nWhat type of food are you leaving out on your porch? Please enter 'wet' or 'dry'."
                 new_food = gets.chomp
                 owner.food_provided = new_food
             when 3 #cat?
                 cat_status_loop = true
                 while cat_status_loop do
-                    puts "\nDo you currently own a cat? Please enter y or n."
+                    puts "\nDo you currently own a cat? Please enter 'y' or 'n'."
                     cat_status = gets.chomp
                         if cat_status == "y"
                             cat_status = true
                             cat_status_loop = false
                         elsif cat_status == "n"
                             cat_status = false
-                            lcat_status_loop = false
+                            cat_status_loop = false
                         else
-                            puts "\nPlease enter y or n."
+                            puts "\nPlease enter 'y' or 'n'."
                         end
                 end
                 owner.cat_already = cat_status
             when 4 #dog?
                 dog_status_loop = true
                 while dog_status_loop do
-                    puts "\nDo you currently own a dog? Please enter y or n."
+                    puts "\nDo you currently own a dog? Please enter 'y' or 'n'."
                     dog_status = gets.chomp
                         if dog_status == "y"
                             dog_status = true
@@ -396,7 +396,7 @@ class DirectoryController
                             dog_status = false
                             dog_status_loop = false
                         else
-                            puts "\nPlease enter y or n."
+                            puts "\nPlease enter 'y' or 'n'."
                         end
                 end
                 owner.dog = dog_status
@@ -438,7 +438,7 @@ class DirectoryController
                 puts "\nWhat is the first name of #{kitty_name}'s current owner?"
                 new_owner = gets.chomp
                 new_owner_id = Owner.all.find_by(name: new_owner)
-                kitty.owner_id = new_owner_id
+                kitty.owner_id = new_owner_id.id
                 puts "\nYay! #{new_owner} is now #{kitty_name}'s owner!\n"
             when 2 #food
                 puts "\nWhich type of cat food does #{kitty_name} prefer, wet or dry?"
