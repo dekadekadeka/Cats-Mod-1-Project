@@ -28,16 +28,17 @@ class DirectoryController
         choices = {
             "  1 - List all of the registered cats that live in Atlanta" => 1,
             "  2 - List all of your fellow Atlanta residents who have registered" => 2,
-            "  3 - Add yourself to the directory" => 3,
-            "  4 - Add your cat to the directory" => 4,
-            "  5 - Remove yourself or your cat from the directory" => 5,
-            "  6 - Compare two cats to see if they'll live harmoniously" => 6,
-            "  7 - See which type of food will attract a certain cat" => 7,
-            "  8 - See which neighbor is the Crazy Cat Lady" => 8,
-            "  9 - Update your information" => 9,
-            "  10 - Update a cat's information" => 10,
-            "  11 - Exit the program" => 11 }
-        choice = prompt.select("\nWhat would you like to do?\n", choices, per_page: 11)
+            "  3 - List all the neighborhoods currently on the list" => 3,
+            "  4 - Add yourself to the directory" => 4,
+            "  5 - Add your cat to the directory" => 5,
+            "  6 - Remove yourself or your cat from the directory" => 6,
+            "  7 - Compare two cats to see if they'll live harmoniously" => 7,
+            "  8 - See which type of food will attract a certain cat" => 8,
+            "  9 - See which neighbor is the Crazy Cat Lady" => 9,
+            "  10 - Update your information" => 10,
+            "  11 - Update a cat's information" => 11,
+            "  12 - Exit the program" => 12 }
+        choice = prompt.select("\nWhat would you like to do?\n", choices, per_page: 12)
 
         case (choice.to_i)
             when 1
@@ -47,34 +48,37 @@ class DirectoryController
                 list_owners
                 return_to_main?
             when 3
-                add_owner
+                list_neighborhoods
                 return_to_main?
             when 4
-                add_cat
+                add_owner
                 return_to_main?
             when 5
-                remove
+                add_cat
                 return_to_main?
             when 6
-                compare_cats
+                remove
                 return_to_main?
             when 7
-                cats_favorite_food
+                compare_cats
                 return_to_main?
             when 8
-                crazy_cat_lady
+                cats_favorite_food
                 return_to_main?
             when 9
-                update_owner_info
+                crazy_cat_lady
                 return_to_main?
             when 10
-                edit_cat_info
+                update_owner_info
                 return_to_main?
             when 11
+                edit_cat_info
+                return_to_main?
+            when 12
                 puts "Bye for now! 😻"
                 quit
             else
-                puts "\nInvalid Entry. Please enter a choice, 1-10."
+                puts "\nInvalid Entry. Please enter a choice, 1-12."
                 main_menu
         end
     end
@@ -94,7 +98,15 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 3 - Add yourself to the directory
+# 3 - List neighborhoods
+
+    def list_neighborhoods
+        Neighborhood.all.select {|hood| puts hood.name}
+    end
+
+
+# ---------------------------------------------------------------------------------------------------------
+# 4 - Add yourself to the directory
 
     def add_owner
         puts "\nLet's add you to the directory!\n"
@@ -170,7 +182,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 4 - Add your cat to the directory
+# 5 - Add your cat to the directory
 
     def add_cat
         puts "\n\n"
@@ -229,7 +241,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 5 - Remove yourself or your cat from the directory
+# 6 - Remove yourself or your cat from the directory
 
     def remove
         prompt = TTY::Prompt.new
@@ -269,7 +281,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 6 - Compare two cats to see if they'll live harmoniously
+# 7 - Compare two cats to see if they'll live harmoniously
 
     def compare_cats
         puts "\nWhich two cats would you like to compare?"
@@ -304,7 +316,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 7 - See which type of food will attract a certain cat
+# 8 - See which type of food will attract a certain cat
 
     def cats_favorite_food
         prompt = TTY::Prompt.new
@@ -332,7 +344,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 8 - See which neighbor is the Crazy Cat Lady
+# 9 - See which neighbor is the Crazy Cat Lady
 
     def crazy_cat_lady
         cat_lady = Owner.all.inject do |memo, owner|
@@ -342,7 +354,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 9 - Update your information
+# 10 - Update your information
 
     def update_owner_info
         puts "\nPlease enter your first name and then press the RETURN key."
@@ -418,7 +430,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 10 - Update a cat's information
+# 11 - Update a cat's information
 
     def edit_cat_info
         puts "\nPlease enter your cat's name and then press the RETURN key."
@@ -467,7 +479,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 11 - Exit the program
+# 12 - Exit the program
 
     def quit
         pid = fork{ exec 'killall', 'afplay' }
