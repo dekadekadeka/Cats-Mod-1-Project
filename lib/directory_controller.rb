@@ -434,12 +434,22 @@ class DirectoryController
             choice = prompt.select("\nHowdy, #{kitty_name}'s owner! What information would you like to update?\n", choices, per_page: 3)
 
             case (choice.to_i)
+
             when 1 #current owner?
-                puts "\nWhat is the first name of #{kitty_name}'s current owner?"
-                new_owner = gets.chomp
-                new_owner_id = Owner.all.find_by(name: new_owner)
-                kitty.owner_id = new_owner_id.id
-                puts "\nYay! #{new_owner} is now #{kitty_name}'s owner!\n"
+            current_owner_loop = true
+        
+            puts "\nWhat is the first name of #{kitty_name}'s current owner?"
+            new_owner = gets.chomp
+            new_owner_id = Owner.all.find_by(name: new_owner)
+                if new_owner_id.nil?
+                    puts "\nThat user doesn't yet exist. You'll now be transferred to the ADD USER menu."
+                    add_owner
+                else
+                    kitty.owner_id = new_owner_id.id
+                    puts "\nYay! #{new_owner} is now #{kitty_name}'s owner!\n"
+                    current_owner_loop = false
+                end
+            
             when 2 #food
                 puts "\nWhich type of cat food does #{kitty_name} prefer, wet or dry?"
                 new_fav_food = gets.chomp
