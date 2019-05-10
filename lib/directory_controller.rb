@@ -246,7 +246,9 @@ class DirectoryController
         
         set_owner_loop = true
         while set_owner_loop do
-            puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 10."
+            puts "\nWould you like to set #{cat_name}'s owner now?"
+            puts "If so, enter 'y' and you'll be transferred to the EDIT CAT menu."
+            puts "If not, enter 'n'. You can edit #{cat_name}'s info later with MAIN MENU option 11."
             set_owner = gets.chomp
                 if set_owner == "y"
                     edit_cat_info
@@ -458,8 +460,12 @@ class DirectoryController
 
     def edit_cat_info
         puts "\nPlease enter your cat's name and then press the RETURN key."
-            kitty_name = gets.chomp
-            kitty = Cat.all.find_by(name: kitty_name)
+        kitty_name = gets.chomp
+        kitty = Cat.all.find_by(name: kitty_name)
+            if kitty.nil?
+                puts "\nThat meowzer doesn't yet exist. You'll now be transferred to the ADD CAT menu."
+                add_cat
+            end
 
             prompt = TTY::Prompt.new
             choices = {
