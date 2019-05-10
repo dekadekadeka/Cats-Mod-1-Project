@@ -32,3 +32,4 @@ porch_kitty = Cat.create(name: "Porch Kitty", breed: "Domestic Shorthair", color
 lyka = Cat.create(name: "Lyka", breed: "Domestic Shorthair", color: "black", favorite_food: "dry", temperament: false, neighborhood_id: midtown.id, owner_id: brit.id)
 panda = Cat.create(name: "Panda", breed: "Snowshoe", color: "white, tan, brown", favorite_food: "dry", temperament: true, neighborhood_id: midtown.id, owner_id: will.id)
 cindy = Cat.create(name: "Cindy Clawford", breed: "Domestic Shorthair", color: "black and white", favorite_food: "wet", temperament: true, neighborhood_id: college_park.id, owner_id: tiffani.id)
+yogs = Cat.create(name: "Yogurt", breed: "Domestic Longhair", color: "black", favorite_food: "wet", temperament: false, neighborhood_id: college_park.id, owner_id: tammy.id)
