@@ -87,14 +87,25 @@ class DirectoryController
 # 1 - List all of the cats that live in Atlanta
 
     def list_cats
-        Cat.all.select { |x| puts x.name }
+        Cat.all.each_with_index do |cat, i| 
+            puts "\n#{i + 1}. #{cat.name} 🐈 \nOwner: #{cat.owner.name} \nBreed: #{cat.breed} | Color: #{cat.color.capitalize}"
+            puts "Food preference: #{cat.favorite_food.capitalize} | Gets along with other cats? #{cat.temperament.to_s.capitalize}"
+            puts "Lives in #{cat.neighborhood.name}"
+            puts "\n----------------------------------------------------------------------------"
+        end
     end
 
 # ---------------------------------------------------------------------------------------------------------
 # 2 - List all of your fellow Atlanta residents
 
     def list_owners
-        Owner.all.select { |x| puts x.name }
+        Owner.all.each_with_index do |owner, i|
+            puts "\n#{i + 1}. #{owner.name} \nAddress: #{owner.address}"
+            puts "Food provided: #{owner.food_provided.capitalize}"
+            puts "Has a cat? #{owner.cat_already.to_s.capitalize} | Has a dog? #{owner.dog.to_s.capitalize}"
+            puts "Lives in #{owner.neighborhood.name}"
+            puts "\n----------------------------------------------------------------------------"
+        end
     end
 
 # ---------------------------------------------------------------------------------------------------------
