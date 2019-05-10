@@ -93,6 +93,7 @@ class DirectoryController
 # 3 - Add your cat to the directory
 
     def add_cat
+        puts "\n\n"
         puts "    /\\__/\\"
         puts "   /'    \'\\"
         puts " === 0  0 ==="
@@ -136,12 +137,12 @@ class DirectoryController
             puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
             set_owner = gets.chomp
                 if set_owner == "y"
-                    update_owner_info
+                    edit_cat_info
                     set_owner_loop = false
                 elsif set_owner == "n"
                     set_owner_loop = false
                 else
-                    puts "\nPlease enter 'y' or 'n'."
+                    puts "\nPlease enter 'y' or 'n'.\n"
                 end
         end
 
@@ -346,21 +347,24 @@ class DirectoryController
 
             prompt = TTY::Prompt.new
             choices = {
-                "  1 - #{kitty_name}'s favorite food" => 1,
-                "  2 - #{kitty_name}'s temperament with other cats" => 2,
-                "  6 - Return to the Main Menu" => 3 }
+                "  1 - #{kitty_name}'s current owner" => 1,
+                "  2 - #{kitty_name}'s favorite food" => 2,
+                "  3 - #{kitty_name}'s temperament with other cats" => 3,
+                "  4 - Return to the Main Menu" => 4 }
             choice = prompt.select("\nHowdy, #{kitty_name}'s owner! What information would you like to update?\n", choices, per_page: 3)
-        # puts "\nHowdy, #{kitty_name}'s owner! What information would you like to update?"
-        # puts "\n   1 - #{kitty_name}'s favorite food"
-        # puts "   2 - #{kitty_name}'s temperament with other cats"
-        # puts "   3 - Return to main menu"
-        #     choice = gets.chomp
+
             case (choice.to_i)
-            when 1 #food
+            when 1 #current owner?
+                puts "\nWhat is the first name of #{kitty_name}'s current owner?"
+                new_owner = gets.chomp
+                new_owner_id = Owner.all.find_by(name: new_owner)
+                kitty.owner_id = new_owner_id
+                puts "\nYay! #{new_owner} is now #{kitty_name}'s owner!\n"
+            when 2 #food
                 puts "\nWhich type of cat food does #{kitty_name} prefer, wet or dry?"
                 new_fav_food = gets.chomp
                 kitty.favorite_food = new_fav_food
-            when 2 #temperament
+            when 3 #temperament
                 new_temp_loop = true
                 while new_temp_loop do
                     puts "\nDoes #{kitty_name} get along with other cats? Please enter 'y' or 'n'."
@@ -376,7 +380,7 @@ class DirectoryController
                         end
                 end
                 kitty.temperament = new_temperament
-            when 3
+            when 4
                 main_menu
             end
     kitty.save
