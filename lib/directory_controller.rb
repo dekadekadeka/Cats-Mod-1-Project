@@ -87,11 +87,20 @@ class DirectoryController
 # 1 - List all of the cats that live in Atlanta
 
     def list_cats
-        Cat.all.each_with_index do |cat, i| 
-            puts "\n#{i + 1}. #{cat.name} 🐈 \nOwner: #{cat.owner.name} \nBreed: #{cat.breed} | Color: #{cat.color.capitalize}"
-            puts "Food preference: #{cat.favorite_food.capitalize} | Gets along with other cats? #{cat.temperament.to_s.capitalize}"
-            puts "Lives in #{cat.neighborhood.name}"
+        Cat.all.each_with_index do |kitty, i| 
+            puts "\n#{i + 1}. #{kitty.name} 🐈"
+            ##### if no owner
+            if kitty.owner.nil?
+                puts "Breed: #{kitty.breed} | Color: #{kitty.color.capitalize}"
+                puts "Food preference: #{kitty.favorite_food.capitalize} | Gets along with other cats? #{kitty.temperament.to_s.capitalize}"
+                puts "\n----------------------------------------------------------------------------"
+            ##############
+            else
+            puts "Owner: #{kitty.owner.name}"
+            puts "Breed: #{kitty.breed} | Color: #{kitty.color.capitalize}"
+            puts "Food preference: #{kitty.favorite_food.capitalize} | Gets along with other cats? #{kitty.temperament.to_s.capitalize}"
             puts "\n----------------------------------------------------------------------------"
+            end
         end
     end
 
@@ -458,7 +467,7 @@ class DirectoryController
                 "  2 - #{kitty_name}'s favorite food" => 2,
                 "  3 - #{kitty_name}'s temperament with other cats" => 3,
                 "  4 - Return to the Main Menu" => 4 }
-            choice = prompt.select("\nHowdy, #{kitty_name}'s owner! What information would you like to update?\n", choices, per_page: 3)
+            choice = prompt.select("\nHowdy, #{kitty_name}'s owner! What information would you like to update?\n", choices, per_page: 4)
 
             case (choice.to_i)
 
@@ -500,7 +509,7 @@ class DirectoryController
             when 4
                 main_menu
             end
-    kitty.save
+    # kitty.save
     end
 
 # ---------------------------------------------------------------------------------------------------------
