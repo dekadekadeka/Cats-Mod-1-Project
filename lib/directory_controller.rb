@@ -98,12 +98,34 @@ class DirectoryController
 
     def add_owner
         puts "\nLet's add you to the directory!\n"
-        puts "\nWhat is your first name?"
+
+        new_name_loop = true
+        while new_name_loop do
+            puts "\nPlease enter your name:"
             new_name = gets.chomp
+            name_check = Owner.find_by(name: new_name)
+                if name_check.nil?
+                    new_name_loop = false
+                else
+                    puts "\nSorry, that name already exists in the directory. Try adding your last name."
+                end
+        end
+
         puts "\nHey, #{new_name}! What is your street address? (Please format your address like this: '221-B Baker Street'.)"
             new_add = gets.chomp
-        puts "\nWhich type of cat food do you put out for free-range kitties? Please enter 'wet' or 'dry'."
+
+        new_food_loop = true
+        while new_food_loop do
+            puts "\nWhich type of cat food do you put out for free-range kitties? Please enter 'wet' or 'dry'."
             new_food = gets.chomp
+                if new_food == "wet"
+                    new_food_loop = false
+                elsif new_food == "dry"
+                    new_food_loop = false
+                else
+                    puts "\nPlease enter 'wet' or 'dry'.\n"
+                end
+        end
 
         new_cat_status_loop = true
         while new_cat_status_loop do
