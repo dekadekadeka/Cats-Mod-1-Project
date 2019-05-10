@@ -189,7 +189,7 @@ class DirectoryController
                     hood = Neighborhood.create(name: new_hood, location: city_state)
                 end
 
-        Owner.create(name: new_name, address: new_add, food_provided: new_food, cat_already: new_cat_status, dog: new_dog_status, neighborhood_id: hood )
+        Owner.create(name: new_name, address: new_add, food_provided: new_food, cat_already: new_cat_status, dog: new_dog_status, neighborhood_id: hood.id )
     end
 
 # ---------------------------------------------------------------------------------------------------------
