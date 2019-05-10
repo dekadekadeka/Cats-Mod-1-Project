@@ -136,7 +136,7 @@ class DirectoryController
             puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
             set_owner = gets.chomp
                 if set_owner == "y"
-                    edit_cat_info
+                    update_owner_info
                     set_owner_loop = false
                 elsif set_owner == "n"
                     set_owner_loop = false
@@ -232,7 +232,7 @@ class DirectoryController
             "  2 - View all of the cats that prefer wet food" => 2,
             "  3 - View all of the cats that prefer dry food" => 3,
             "  4 - Return to the Main Menu" => 4 }
-        choice = prompt.select("\nIf you're lonley and want a cat, here's the info you'll need to attract one!\n", choices, per_page: 4)
+        choice = prompt.select("\nIf you're lonely and want a cat, here's the info you'll need to attract one!\n", choices, per_page: 4)
         case (choice.to_i)
             when 1
                 puts "\nWhich cat would you like to attract?"
@@ -324,8 +324,12 @@ class DirectoryController
                 new_hood = gets.chomp
                 puts "\nCity and state?"
                 city_state = gets.chomp
-                    new_hood_instance = Neighborhood.create(new_hood, city_state)
-                owner.neighborhood_id = new_hood_instance.id
+                    hood = Neighborhood.find_by(name: new_hood, location: city_state)
+                    owner.neighborhood = hood
+                    if hood.nil?
+                        new_hood_instance = Neighborhood.create(name: new_hood, location: city_state)
+                        owner.neighborhood_id = new_hood_instance.id
+                    end
             when 6
                 main_menu
             end
