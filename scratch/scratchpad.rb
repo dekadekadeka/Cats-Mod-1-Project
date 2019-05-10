@@ -75,18 +75,24 @@
 
 
     when 1 #current owner?
-    current_owner_loop = true
+    first_name_loop = true
+    while first_name_loop do
+        puts "\nPlease enter your first name and then press the RETURN key"
+        first_name = gets.chomp
+        owner = Owner.all.find_by(name: first_name)
+            if owner.nil?
+                puts "\nThat user doesn't yet exist. You'll now be transferred to the ADD USER menu."
+                add_owner
+            else
+                first_name_loop = false
+            end
 
-    puts "\nWhat is the first name of #{kitty_name}'s current owner?"
-    new_owner = gets.chomp
-    new_owner_id = Owner.all.find_by(name: new_owner)
-        if new_owner_id.nil?
-            puts "\nThat user doesn't yet exist. You'll now be transferred to the ADD USER menu."
-            add_owner
-        else
-            kitty.owner_id = new_owner_id.id
-            puts "\nYay! #{new_owner} is now #{kitty_name}'s owner!\n"
-            current_owner_loop = false
-        end
+
+        def update_owner_info
+            puts "\nPlease enter your first name and then press the RETURN key."
+                first_name = gets.chomp
+                owner = Owner.all.find_by(name: first_name)
+
+
 
 
