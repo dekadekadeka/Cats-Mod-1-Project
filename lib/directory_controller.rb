@@ -26,17 +26,18 @@ class DirectoryController
         puts "\nHELLO! Welcome to the Atlanta Cat Directory!"
         prompt = TTY::Prompt.new
         choices = {
-            "  1 - List all of the cats that live in Atlanta." => 1,
-            "  2 - List all of your fellow Atlanta residents." => 2,
-            "  3 - Add your cat to the directory." => 3,
-            "  4 - Remove yourself or your cat from the directory." => 4,
-            "  5 - Compare two cats to see if they'll live harmoniously." => 5,
-            "  6 - See which type of food will attract a certain cat." => 6,
-            "  7 - See which neighbor is the Crazy Cat Lady." => 7,
-            "  8 - Update your information." => 8,
-            "  9 - Update a cat's information." => 9,
-            "  10 - Exit the program" => 10 }
-        choice = prompt.select("\nWhat would you like to do?\n", choices, per_page: 10)
+            "  1 - List all of the registered cats that live in Atlanta" => 1,
+            "  2 - List all of your fellow Atlanta residents who have registered" => 2,
+            "  3 - Add yourself to the directory" => 3,
+            "  4 - Add your cat to the directory" => 4,
+            "  5 - Remove yourself or your cat from the directory" => 5,
+            "  6 - Compare two cats to see if they'll live harmoniously" => 6,
+            "  7 - See which type of food will attract a certain cat" => 7,
+            "  8 - See which neighbor is the Crazy Cat Lady" => 8,
+            "  9 - Update your information" => 9,
+            "  10 - Update a cat's information" => 10,
+            "  11 - Exit the program" => 11 }
+        choice = prompt.select("\nWhat would you like to do?\n", choices, per_page: 11)
 
         case (choice.to_i)
             when 1
@@ -46,27 +47,30 @@ class DirectoryController
                 list_owners
                 return_to_main?
             when 3
-                add_cat
+                add_owner
                 return_to_main?
             when 4
-                remove
+                add_cat
                 return_to_main?
             when 5
-                compare_cats
+                remove
                 return_to_main?
             when 6
-                cats_favorite_food
+                compare_cats
                 return_to_main?
             when 7
-                crazy_cat_lady
+                cats_favorite_food
                 return_to_main?
             when 8
-                update_owner_info
+                crazy_cat_lady
                 return_to_main?
             when 9
-                edit_cat_info
+                update_owner_info
                 return_to_main?
             when 10
+                edit_cat_info
+                return_to_main?
+            when 11
                 puts "Bye for now! 😻"
                 quit
             else
@@ -90,7 +94,61 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 3 - Add your cat to the directory
+# 3 - Add yourself to the directory
+
+    def add_owner
+        puts "\nLet's add you to the directory!\n"
+        puts "\nWhat is your first name?"
+            new_name = gets.chomp
+        puts "\nHey, #{new_name}! What is your street address? (Please format your address like this: '221-B Baker Street'.)"
+            new_add = gets.chomp
+        puts "\nWhich type of cat food do you put out for free-range kitties? Please enter 'wet' or 'dry'."
+            new_food = gets.chomp
+
+        new_cat_status_loop = true
+        while new_cat_status_loop do
+            puts "\nDo you currently have any cats? (Please enter 'y' or 'n'.)"
+            new_cat_status = gets.chomp
+                if new_cat_status == "y"
+                    new_cat_status = true
+                    new_cat_status_loop = false
+                elsif new_cat_status == "n"
+                    new_cat_status = false
+                    new_cat_status_loop = false
+                else
+                    puts "\nPlease enter 'y' or 'n'.\n"
+                end
+        end
+
+        new_dog_status_loop = true
+        while new_dog_status_loop do
+            puts "\nDo you currently have any dogs? (Please enter 'y' or 'n'.)"
+            new_dog_status = gets.chomp
+                if new_dog_status == "y"
+                    new_dog_status = true
+                    new_dog_status_loop = false
+                elsif new_dog_status == "n"
+                    new_dog_status = false
+                    new_dog_status_loop = false
+                else
+                    puts "\nPlease enter 'y' or 'n'."
+                end
+        end
+
+        puts "\nIn which neighborhood are you currently living?"
+            new_hood = gets.chomp
+        puts "\nWhat's the city and state?"
+            city_state = gets.chomp
+                hood = Neighborhood.find_by(name: new_hood, location: city_state)
+                if hood.nil?
+                    hood = Neighborhood.create(name: new_hood, location: city_state)
+                end
+
+        Owner.new(name: new_name, address: new_add, food_provided: new_food, cat_already: new_cat_status, dog: new_dog_status, neighborhood_id: hood )
+    end
+
+# ---------------------------------------------------------------------------------------------------------
+# 4 - Add your cat to the directory
 
     def add_cat
         puts "\n\n"
@@ -134,7 +192,7 @@ class DirectoryController
         
         set_owner_loop = true
         while set_owner_loop do
-            puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 9."
+            puts "\nWould you like to set #{cat_name}'s owner now? (y/n)  Note: you can always edit this later with Main Menu option 10."
             set_owner = gets.chomp
                 if set_owner == "y"
                     edit_cat_info
@@ -149,7 +207,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 4 - Remove yourself or your cat from the directory
+# 5 - Remove yourself or your cat from the directory
 
     def remove
         prompt = TTY::Prompt.new
@@ -189,7 +247,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 5 - Compare two cats to see if they'll live harmoniously
+# 6 - Compare two cats to see if they'll live harmoniously
 
     def compare_cats
         puts "\nWhich two cats would you like to compare?"
@@ -224,7 +282,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 6 - See which type of food will attract a certain cat
+# 7 - See which type of food will attract a certain cat
 
     def cats_favorite_food
         prompt = TTY::Prompt.new
@@ -252,7 +310,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 7 - See which neighbor is the Crazy Cat Lady
+# 8 - See which neighbor is the Crazy Cat Lady
 
     def crazy_cat_lady
         cat_lady = Owner.all.inject do |memo, owner|
@@ -262,7 +320,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 8 - Update your information
+# 9 - Update your information
 
     def update_owner_info
         puts "\nPlease enter your first name and then press the RETURN key."
@@ -338,7 +396,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 9 - Update a cat's information
+# 10 - Update a cat's information
 
     def edit_cat_info
         puts "\nPlease enter your cat's name and then press the RETURN key."
@@ -387,7 +445,7 @@ class DirectoryController
     end
 
 # ---------------------------------------------------------------------------------------------------------
-# 10 - Exit the program
+# 11 - Exit the program
 
     def quit
         pid = fork{ exec 'killall', 'afplay' }
